@@ -1,4 +1,3 @@
-
 # ***** BEGIN GPL LICENSE BLOCK *****
 #
 #
@@ -28,7 +27,7 @@ bl_info = {
     "version": (0,1),
     "blender": (2, 61,4),
     "location": "Properties > Render > BatchBake",
-    "warning": "", 
+    "warning": "test-only, unstable, dangerous, use at your own risk !!", 
     "wiki_url": "http://wiki.blender.org/index.php/Extensions:2.5/Py/"
                 "Scripts/My_Script",
     "tracker_url": "http://projects.blender.org/tracker/index.php?"
