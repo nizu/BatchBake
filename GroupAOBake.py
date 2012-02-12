@@ -336,7 +336,7 @@ class BBmainoperator(bpy.types.Operator):
         bpy.context.scene.render.bake_type = 'AO'
         bpy.context.scene.render.use_bake_clear = False
         bpy.context.scene.render.use_bake_antialiasing = True
-	bpy.context.scene.render.use_bake_normalize = True
+        bpy.context.scene.render.use_bake_normalize = True
 
 ##  batch bake each object 
         for bakeobj in bpy.data.groups[(bakegroup)].objects :
