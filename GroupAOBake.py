@@ -97,6 +97,13 @@ class BBtempjoin_go (bpy.types.Operator):
                 obj.vertex_groups[('TJ_'+obj.name)].add(index=[vert],weight=1,type='REPLACE') 
 
         bpy.ops.object.duplicate()
+        
+## clear rotations         
+        
+        bpy.ops.object.rotation_clear()
+        bpy.ops.object.scale_clear()
+
+        
         bpy.ops.object.join()
         bpy.context.selected_objects[0].name = 'TJ_TempObject'
 
@@ -330,8 +337,8 @@ class BBmainoperator(bpy.types.Operator):
             bpy.ops.uv.smart_project(island_margin=0.01, user_area_weight=0)
     
 ### bake ao 
-
 ##  prep bake settings
+        bpy.context.scene.render.use_color_management = False
         bpy.context.scene.render.bake_type = 'AO'
         bpy.context.scene.render.use_bake_clear = False
         bpy.context.scene.render.use_bake_antialiasing = True
@@ -398,6 +405,7 @@ class BBmainoperator(bpy.types.Operator):
 
 ### settings and bake textures                    
         bpy.context.scene.render.bake_type = 'TEXTURE'
+        bpy.context.scene.render.use_bake_clear = True
         bpy.ops.object.bake_image()
         bpy.ops.object.delete(use_global=False)
         
@@ -407,8 +415,12 @@ class BBmainoperator(bpy.types.Operator):
             for id in range(len(ob.data.uv_textures[uvmap].data)):
                ob.data.uv_textures[uvmap].data[id].image = bpy.data.images[img3name] 
 
-    
+        
         print ( 'loop END' )            
+        
+        
+        bpy.context.scene.render.use_color_management=True
+        
 ### done
         return {'FINISHED'}
 
