@@ -345,38 +345,61 @@ class BBmainoperator(bpy.types.Operator):
         bpy.context.scene.render.use_bake_normalize = True
 
 ##  batch bake each object 
-        for bakeobj in bpy.data.groups[(bakegroup)].objects :
-            bpy.ops.object.select_pattern(extend=False, pattern=bakeobj.name , case_sensitive=True)
 
-##bake AO 1        
-            bpy.context.scene.world.light_settings.distance = AOdist
-            bpy.ops.object.bake_image()
+        bpy.ops.object.select_all(action='DESELECT')
+
+        for bakeobj in bpy.data.groups[(bakegroup)].objects :
+            bpy.ops.object.select_pattern(extend=True, pattern=bakeobj.name , case_sensitive=True) 
+
+
+#        for bakeobj in bpy.data.groups[(bakegroup)].objects :
+#        for bakeobj in bpy.data.groups[(bakegroup)].objects :
+#            bpy.ops.object.select_pattern(extend=False, pattern=bakeobj.name , case_sensitive=True)
+#            bpy.context.scene.objects.active = bakeobj
+            
+##bake AO 1  
+#            bakeobj.hide_render=False      
+
+        bpy.context.scene.world.light_settings.distance = AOdist
+        bpy.ops.object.bake_image()
 ##bake AO 0
+        for bakeobj in bpy.data.groups[(bakegroup)].objects :
             for id in range(len(bakeobj.data.uv_textures[uvmap].data)):
                 bakeobj.data.uv_textures[uvmap].data[id].image = bpy.data.images[img0name] 
 
-            bpy.context.scene.world.light_settings.distance = ((AOdist)*0.25)
+        bpy.context.scene.world.light_settings.distance = ((AOdist)*0.25)
 
-            bpy.ops.object.bake_image()
+        bpy.ops.object.select_all(action='DESELECT')
+        for bakeobj in bpy.data.groups[(bakegroup)].objects :
+            bpy.ops.object.select_pattern(extend=True, pattern=bakeobj.name , case_sensitive=True) 
+
+        bpy.ops.object.bake_image()
 
 
 ## flip normals
+        for bakeobj in bpy.data.groups[(bakegroup)].objects :
             bpy.ops.bpt.bb_flip_op()
 ## assign AOInv image and bake 
-          
+      
             for id in range(len(bakeobj.data.uv_textures[uvmap].data)):
                 bakeobj.data.uv_textures[uvmap].data[id].image = bpy.data.images[img2name] 
-            
-            bpy.context.scene.world.light_settings.distance = AOInvdist
+        
+        bpy.context.scene.world.light_settings.distance = AOInvdist
 
-            print ( 'baking AOInv for object: ' + bakeobj.name )
-            bpy.ops.object.bake_image()
+        print ( 'baking AOInv for object: ' + bakeobj.name )
 
-            
+        bpy.ops.object.select_all(action='DESELECT')
+        for bakeobj in bpy.data.groups[(bakegroup)].objects :
+            bpy.ops.object.select_pattern(extend=True, pattern=bakeobj.name , case_sensitive=True) 
+
+        bpy.ops.object.bake_image()
+
+        
 ## flip normals
+        for bakeobj in bpy.data.groups[(bakegroup)].objects :
             bpy.ops.bpt.bb_flip_op()
-            
-                    
+        
+                
 ## bake AO and Inv AO together
 ### material creation        
         bpy.ops.bpt.bb_make_compmat_op()  
